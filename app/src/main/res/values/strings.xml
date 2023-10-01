@@ -3,4 +3,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="anime_list">Anime List</string>
+
+    <string name="alert">Alert</string>
+    <string name="seems_like_your_session_has_expired_please_login_again">Seems like your session has expired. Please login again.</string>
+    <string name="ok_caps">OK</string>
 </resources>
