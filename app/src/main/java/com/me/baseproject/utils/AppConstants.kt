@@ -22,7 +22,7 @@ class BaseURL {
 
 class AppUrls {
     companion object {
-        val apiURL = BaseURL.baseURL + "api/"
+        val apiURL = BaseURL.baseURL
         val imageURL = BaseURL.baseURL
     }
 }

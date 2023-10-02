@@ -137,7 +137,7 @@ class ApiClient {
             response.body()?.let { response ->
                 val status = response["status"]
                 val statusAsInt =
-                    if (status is Double) status.toInt() else if (status is String) status.toInt() else (status as Int)
+                    if (status is Double) status.toInt() else if (status is String) status.toInt() else ((status as Int?) ?: 0)
                 if (statusAsInt != 200 && response["message"] is String) {
                     Singleton.generalFunctions.showToast(
                         context,

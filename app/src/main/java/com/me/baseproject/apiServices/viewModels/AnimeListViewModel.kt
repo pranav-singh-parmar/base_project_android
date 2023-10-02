@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.me.baseproject.apiServices.models.AnimeModel
+import com.me.baseproject.apiServices.models.AnimeResponse
 import com.me.baseproject.utils.ApiStatus
 import com.me.baseproject.utils.EndPoints
 import com.me.baseproject.utils.Singleton
@@ -14,13 +15,13 @@ class AnimeListViewModel : ViewModel() {
         MutableLiveData<ApiStatus>(ApiStatus.NotHitOnce)
     val animeList: MutableList<AnimeModel?> = mutableListOf()
 
-    private var total = 0
+    private var totalPage = 0
     private var currentLength = 0
-    var lastIndex = 0
+    private var currentPage = 0
 
     private val fetchedAllData: Boolean
         get() {
-            return total <= currentLength
+            return totalPage <= currentPage
         }
 
     fun pagination(context: Context, index: Int) {
@@ -34,20 +35,20 @@ class AnimeListViewModel : ViewModel() {
         getAnimeListsAS.value = ApiStatus.IsBeingHit
 
         if (clearList) {
-            currentLength = 0
+            currentPage = 1
         }
 
         val params = mapOf<String, Any>(
             "size" to "10",
             "search" to "Dragon Ball Z",
-            "page" to currentLength
+            "page" to currentPage
         )
 
         Singleton.apiServices.getApi(context,
             EndPoints.anime,
             true,
             params,
-            AnimeModel::class.java,
+            AnimeResponse::class.java,
             { animeResponse, _ ->
                 if (animeResponse != null) {
 
@@ -57,9 +58,10 @@ class AnimeListViewModel : ViewModel() {
 
 //                    total = animeResponse.total ?: 0
 
-                    lastIndex = animeList.size
-//                    animeList.addAll(animeResponse.data ?: mutableListOf())
+                    currentPage++
+                    animeList.addAll(animeResponse.data ?: mutableListOf())
                     currentLength = animeList.size
+                    totalPage = animeResponse.meta?.totalPage ?: 0
 
                     getAnimeListsAS.value = ApiStatus.ApiHit
                 } else {
