@@ -9,7 +9,7 @@ class AppConfig {
 //                return ""
 //            }
 
-            return ""
+            return "https://anime-db.p.rapidapi.com/"
         }
     }
 }
@@ -29,7 +29,7 @@ class AppUrls {
 
 class EndPoints {
     companion object{
-        const val characters = "characters"
+        const val anime = "anime"
     }
 }
 

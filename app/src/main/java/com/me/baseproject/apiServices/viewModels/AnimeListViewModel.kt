@@ -25,11 +25,11 @@ class AnimeListViewModel : ViewModel() {
 
     fun pagination(context: Context, index: Int) {
         if (getAnimeListsAS.value != ApiStatus.IsBeingHit && index == currentLength - 1 && !fetchedAllData) {
-            getRechargePackages(context, false)
+            getAnimeList(context, false)
         }
     }
 
-    fun getRechargePackages(context: Context, clearList: Boolean = true) {
+    fun getAnimeList(context: Context, clearList: Boolean = true) {
 
         getAnimeListsAS.value = ApiStatus.IsBeingHit
 
@@ -38,32 +38,33 @@ class AnimeListViewModel : ViewModel() {
         }
 
         val params = mapOf<String, Any>(
-            "limit" to 10,
-            "offset" to currentLength
+            "size" to "10",
+            "search" to "Dragon Ball Z",
+            "page" to currentLength
         )
 
-        Singleton.apiServices.postApi(context,
-            EndPoints.characters,
+        Singleton.apiServices.getApi(context,
+            EndPoints.anime,
             true,
             params,
             AnimeModel::class.java,
             { animeResponse, _ ->
-//                if (animeResponse != null && animeResponse.success == true) {
-//
-//                    if (clearList) {
-//                        animeList.clear()
-//                    }
-//
-////                    total = animeResponse.total ?: 0
-//
-//                    lastIndex = animeList.size
-////                    animeList.addAll(animeResponse.data ?: mutableListOf())
-//                    currentLength = animeList.size
-//
-//                    getAnimeListsAS.value = ApiStatus.ApiHit
-//                } else {
-//                    getAnimeListsAS.value = ApiStatus.ApiHitWithError
-//                }
+                if (animeResponse != null) {
+
+                    if (clearList) {
+                        animeList.clear()
+                    }
+
+//                    total = animeResponse.total ?: 0
+
+                    lastIndex = animeList.size
+//                    animeList.addAll(animeResponse.data ?: mutableListOf())
+                    currentLength = animeList.size
+
+                    getAnimeListsAS.value = ApiStatus.ApiHit
+                } else {
+                    getAnimeListsAS.value = ApiStatus.ApiHitWithError
+                }
             },
             {
                 getAnimeListsAS.value = ApiStatus.ApiHitWithError

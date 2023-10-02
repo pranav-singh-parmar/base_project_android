@@ -49,6 +49,7 @@ class ApiClient {
         fun getApi(
             @Path("path", encoded = true) path: String,
             @HeaderMap headerMap: Map<String, String>?,
+            @QueryMap login: Map<String, @JvmSuppressWildcards Any>?
         ): Call<Map<String, Any>>
 
         @POST("{path}")
@@ -63,6 +64,8 @@ class ApiClient {
         val headerMap = mutableMapOf<String, String>()
         headerMap["Accept"] = "application/json"
         headerMap["device"] = "android"
+        headerMap["X-RapidAPI-Key"] = "2b975442demsh14dd8bb5a692b60p17c702jsnc458dbd221ae"
+        headerMap["X-RapidAPI-Host"] = "anime-db.p.rapidapi.com"
 //        if (isAuth) {
 //            val token = Singleton.sharedPrefs.getString(SharedPrefsKeys.authToken)
 //            if (token.isNotEmpty()) {
@@ -77,13 +80,14 @@ class ApiClient {
         context: Context,
         endPoint: String,
         isAuth: Boolean,
+        queryParameters: Map<String, Any> = mapOf<String, Any>(),
         dataClass: Class<T>,
         outputBlockForSuccess: (model: T?, json: Map<String, Any>?) -> Unit,
         outputBlockForInternetNotConnected: () -> Unit) {
 
         val headers = getHeaders(isAuth)
 
-        api.getApi(endPoint, headers).enqueue(object : Callback<Map<String, Any>> {
+        api.getApi(endPoint, headers, queryParameters).enqueue(object : Callback<Map<String, Any>> {
 
             override fun onResponse(call: Call<Map<String, Any>>, response: Response<Map<String, Any>>) {
                 onResponse(context, dataClass, response, outputBlockForSuccess)
