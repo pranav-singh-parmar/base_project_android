@@ -7,4 +7,5 @@
     <string name="alert">Alert</string>
     <string name="seems_like_your_session_has_expired_please_login_again">Seems like your session has expired. Please login again.</string>
     <string name="ok_caps">OK</string>
+    <string name="no_data_available">No Data Available</string>
 </resources>

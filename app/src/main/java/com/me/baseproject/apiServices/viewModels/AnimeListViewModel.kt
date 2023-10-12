@@ -18,6 +18,7 @@ class AnimeListViewModel : ViewModel() {
     private var totalPage = 0
     private var currentLength = 0
     private var currentPage = 0
+    var lastIndex = 0
 
     private val fetchedAllData: Boolean
         get() {
@@ -59,6 +60,7 @@ class AnimeListViewModel : ViewModel() {
 //                    total = animeResponse.total ?: 0
 
                     currentPage++
+                    lastIndex = animeList.size
                     animeList.addAll(animeResponse.data ?: mutableListOf())
                     currentLength = animeList.size
                     totalPage = animeResponse.meta?.totalPage ?: 0

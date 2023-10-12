@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.me.baseproject.apiServices.models.AnimeModel
 import com.me.baseproject.databinding.AdapterAnimeBinding
 import com.me.baseproject.utils.AnimeAdapterClickInterface
+import com.me.baseproject.utils.Singleton
 
 class AnimeAdapter(
     private val context: Activity,
@@ -20,9 +21,16 @@ class AnimeAdapter(
         RecyclerView.ViewHolder(binding?.root ?: View(context)) {
         fun bindData(animeModel: AnimeModel?) {
             if (binding != null) {
-//                    binding.cdOuterView.setOnClickListener {
-//                        animeAdapterInterface.animeAdapterClicked(animeModel)
-//                    }
+                Singleton.generalFunctions.glide(
+                    context,
+                    animeModel?.image ?: "",
+                    binding.ivAnime
+                )
+                binding.tvAnimeTitle.text = animeModel?.title ?: ""
+                binding.tvAnimeType.text = animeModel?.type ?: ""
+                binding.cdOuterView.setOnClickListener {
+                    animeAdapterInterface.animeAdapterClicked(animeModel)
+                }
             }
         }
     }

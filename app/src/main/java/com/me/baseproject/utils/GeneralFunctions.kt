@@ -16,7 +16,7 @@ class GeneralFunctions {
             .centerCrop()
             .into(imageView)
             .apply {
-                //RequestOptions.placeholderOf(R.drawable.ic_placeholder)
+                RequestOptions.placeholderOf(R.drawable.img_placeholder)
             }
     }
 
@@ -26,7 +26,7 @@ class GeneralFunctions {
             .load(url)
             .into(imageView)
             .apply {
-                //RequestOptions.placeholderOf(R.drawable.ic_placeholder)
+                RequestOptions.placeholderOf(R.drawable.img_placeholder)
             }
     }
 

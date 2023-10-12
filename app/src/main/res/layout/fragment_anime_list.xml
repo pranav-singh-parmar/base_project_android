@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.fragments.AnimeListFragment">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/llOuterView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/rvAnime"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1" />
@@ -25,17 +25,15 @@
 
             <TextView
                 android:id="@+id/tvNoDataAvailable"
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-
-            />
+                android:text="@string/no_data_available" />
             <!--                style="@style/TextStyleF15RBlack28ColorW400"-->
-<!--            android:text="@string/no_data_available"-->
+
 
         </LinearLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </layout>

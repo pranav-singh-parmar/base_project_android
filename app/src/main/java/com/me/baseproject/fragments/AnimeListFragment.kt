@@ -15,6 +15,7 @@ import com.me.baseproject.adapyers.AnimeAdapter
 import com.me.baseproject.apiServices.models.AnimeModel
 import com.me.baseproject.databinding.FragmentAnimeListBinding
 import com.me.baseproject.utils.AnimeAdapterClickInterface
+import com.me.baseproject.utils.ApiStatus
 
 class AnimeListFragment : Fragment() {
 
@@ -37,6 +38,22 @@ class AnimeListFragment : Fragment() {
         })
 
         animeListVM = ViewModelProvider(this)[AnimeListViewModel::class.java]
+        animeListVM.getAnimeListsAS.observe(this) { apiStatus ->
+            if (apiStatus == ApiStatus.ApiHit) {
+                if (animeListVM.animeList.isEmpty()) {
+                    binding?.llEmptyList?.visibility = View.VISIBLE
+                    binding?.rvAnime?.visibility = View.GONE
+                } else {
+                    binding?.llEmptyList?.visibility = View.GONE
+                    binding?.rvAnime?.visibility = View.VISIBLE
+                    if (animeListVM.lastIndex == 0) {
+                        animeAdapter.updateList(animeListVM.animeList)
+                    } else {
+                        animeAdapter.addAll(animeListVM.animeList, animeListVM.lastIndex)
+                    }
+                }
+            }
+        }
     }
 
     override fun onCreateView(
@@ -45,16 +62,16 @@ class AnimeListFragment : Fragment() {
         binding = FragmentAnimeListBinding.inflate(layoutInflater)
 
         linearLMAnimeList = LinearLayoutManager(mainActivity, LinearLayoutManager.VERTICAL, false)
-//        binding?.rvGameTypes?.layoutManager = linearLMSelectGameType
-//        binding?.rvGameTypes?.adapter = selectGameTypeAdapter
+        binding?.rvAnime?.layoutManager = linearLMAnimeList
+        binding?.rvAnime?.adapter = animeAdapter
 
-//        binding?.rvWalletHistory?.addOnScrollListener(object: RecyclerView.OnScrollListener(){
-//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//                if(linearLMAnimeList.findLastVisibleItemPosition() == linearLMAnimeList.itemCount -1)
-//                    animeListVM.pagination(mainActivity, animeListVM.animeList.size - 1)
-//                super.onScrolled(recyclerView, dx, dy)
-//            }
-//        })
+        binding?.rvAnime?.addOnScrollListener(object: RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                if(linearLMAnimeList.findLastVisibleItemPosition() == linearLMAnimeList.itemCount -1)
+                    animeListVM.pagination(mainActivity, animeListVM.animeList.size - 1)
+                super.onScrolled(recyclerView, dx, dy)
+            }
+        })
 
         return binding?.root
     }
