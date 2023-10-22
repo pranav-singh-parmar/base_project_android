@@ -36,3 +36,7 @@ class EndPoints {
 enum class ApiStatus {
     NotHitOnce, IsBeingHit, ApiHitWithError, ApiHit
 }
+
+enum class RecyclerViewsEnum(var value: Int) {
+    Header(1), ContentView(2), Footer(3)
+}

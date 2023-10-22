@@ -20,7 +20,7 @@ class AnimeListViewModel : ViewModel() {
     private var currentPage = 0
     var lastIndex = 0
 
-    private val fetchedAllData: Boolean
+    val fetchedAllData: Boolean
         get() {
             return totalPage <= currentPage
         }
